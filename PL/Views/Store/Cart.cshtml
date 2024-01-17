@@ -1,0 +1,55 @@
+﻿@model VentaModel
+@{
+    ViewData["Title"] = "Cart";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1 class="display-1">Carrito</h1>
+
+@if (Model.Carrito == null || Model.Carrito.Count == 0)
+{
+    <div class="alert border-info rounded-3">
+        <p class="lead">No hay productos que mostrar</p>
+    </div>
+}
+else
+{
+    <div class="my-3">
+        <a class="btn btn-outline-danger" href="@Url.Action("Clear", "Store")">Limpiar</a>
+    </div>
+
+    <div class="border border-2 rounded-3 p-4 row justify-content-center">
+        @foreach (BL.Producto itemProducto in Model.Carrito)
+        {
+            <div class="col-12 col-lg-4 py-3">
+                <div class="card p-3 border-info zoom">
+                    <h6 class="display-6 text-center">@itemProducto.Nombre</h6>
+                    <hr>
+                    <div class="card-body">
+                        <p>Informacion</p>
+                        <p class="lead">Codigo de barras: @itemProducto.CodigoBarras</p>
+                        <p class="lead">Descripcion:</p>
+                        <p class="lead">@itemProducto.Descripcion</p>
+                        <p class="lead">Precio: $@itemProducto.Precio</p>
+                        <p class="lead">Precio venta: $@itemProducto.PrecioVenta</p>
+                        <p class="lead text-info">Descuento: @itemProducto.Descuento</p>
+                        <p class="lead">Categoria: @itemProducto.Categoria.Nombre</p>
+                        <p class="lead">Cantidad: @itemProducto.Cantidad</p>
+                        <p class="lead">Total: @(itemProducto.Descuento == 0 ? itemProducto.PrecioVenta : ((itemProducto.Descuento * itemProducto.PrecioVenta) / 100))</p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+
+<style scoped>
+    .zoom {
+        transition: transform .2s;
+        cursor: pointer;
+    }
+
+        .zoom:hover {
+            transform: scale(1.1);
+        }
+</style>

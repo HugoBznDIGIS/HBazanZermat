@@ -1,0 +1,94 @@
+﻿@model BL.Producto
+@{
+    ViewData["Title"] = "Form";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1 class="display-1">@(Model.IdProducto == 0 ? "Agregar producto" : "Actualizar producto")</h1>
+
+<div class="border border-2 rounded-3 p-5">
+    @using (Html.BeginForm("Form", "Producto", FormMethod.Post, new { enctype = "multipart/form-data", @class = "row justify-content-center" }))
+    {
+        @Html.HiddenFor(model => Model.IdProducto)
+
+        <div class="col-12 col-md-4">
+            @Html.LabelFor(model => Model.Nombre)
+            <div class="input-group flex-nowrap">
+                <span class="input-group-text">🥳</span>
+                @Html.TextBoxFor(model => Model.Nombre, new { @class = "form-control", @placeholder = "Nombre", @required = true })
+            </div>
+            <label class="text-danger">
+                @Html.ValidationMessageFor(model => Model.Nombre)
+            </label>
+        </div>
+
+        <div class="col-12 col-md-4">
+            @Html.LabelFor(model => Model.CodigoBarras)
+            <div class="input-group flex-nowrap">
+                <span class="input-group-text">🥳</span>
+                @Html.TextBoxFor(model => Model.CodigoBarras, new { @class = "form-control", @placeholder = "Codigo de barras (MAX 10)", @required = true })
+            </div>
+            <label class="text-danger">
+                @Html.ValidationMessageFor(model => Model.CodigoBarras)
+            </label>
+        </div>
+
+        <div class="col-12 col-md-4">
+            @Html.LabelFor(model => Model.Descripcion)
+            <div class="input-group flex-nowrap">
+                <span class="input-group-text">🥳</span>
+                @Html.TextAreaFor(model => Model.Descripcion, new { @class = "form-control", @placeholder = "Descripcion (MAX 500)", @required = true })
+            </div>
+            <label class="text-danger">
+                @Html.ValidationMessageFor(model => Model.Descripcion)
+            </label>
+        </div>
+
+        <div class="col-12 col-md-4">
+            @Html.LabelFor(model => Model.Precio)
+            <div class="input-group flex-nowrap">
+                <span class="input-group-text">🥳</span>
+                @Html.TextBoxFor(model => Model.Precio, new { @class = "form-control", @placeholder = "Precio", @min = 0, @type = "text", @pattern = @"\d+(\.\d{1,2})?" })
+            </div>
+            <label class="text-danger">
+                @Html.ValidationMessageFor(model => Model.Descripcion)
+            </label>
+        </div>
+
+        <div class="col-12 col-md-4">
+            @Html.LabelFor(model => Model.Categoria.IdCategoria)
+            <div class="input-group flex-nowrap">
+                <span class="input-group-text">🥳</span>
+                @Html.DropDownListFor(model => Model.Categoria.IdCategoria, new SelectList(Model.Categoria.Categorias, "IdCategoria", "Nombre"), "Selecciona una opcion", new { @class = "form-control", @required = true })
+            </div>
+            <label class="text-danger">
+                @Html.ValidationMessageFor(model => Model.Categoria.IdCategoria)
+            </label>
+        </div>
+
+        <div class="col-12 col-md-4">
+            @Html.LabelFor(model => Model.PrecioVenta)
+            <div class="input-group flex-nowrap">
+                <span class="input-group-text">🥳</span>
+                @Html.TextBoxFor(model => Model.PrecioVenta, new { @class = "form-control", @placeholder = "Precio venta", @min = 0, @type = "number", @step = "any" })
+            </div>
+            <label class="text-danger">
+                @Html.ValidationMessageFor(model => Model.PrecioVenta)
+            </label>
+        </div>
+
+        <div class="col-12 col-md-4 mt-2">
+            @Html.LabelFor(model => Model.Descuento) <span class="text-muted">Campo no requerido</span>
+            <div class="input-group flex-nowrap">
+                <span class="input-group-text">🥳</span>
+                @Html.TextBoxFor(model => Model.Descuento, new { @class = "form-control", @placeholder = "Descuento", @type = "number", @min = 0, @step = "any" })
+            </div>
+        </div>
+
+        <div class="col-12 text-center mt-3">
+            <input class="btn btn-outline-primary" type="submit" value="@(Model.IdProducto == 0 ? "Agregar" : "Actualizar")" />
+            <a class="btn btn-outline-danger" href="@Url.Action("GetAll", "Producto")">Regresar</a>
+        </div>
+    }
+</div>
+

@@ -1,0 +1,57 @@
+﻿@model BL.Producto
+@{
+    ViewData["Title"] = "GetAll";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1 class="display-1">Productos</h1>
+
+<div class="my-3">
+    <a class="btn btn-outline-primary" href="@Url.Action("Form", "Producto")">Agregar</a>
+</div>
+
+@if (Model.Productos.Count > 0)
+{
+    <div class="border border-2 rounded-3 p-5">
+        <div class="row justify-content-center">
+            @foreach (BL.Producto itemProducto in Model.Productos)
+            {
+                <div class="col-12 col-lg-4 py-3">
+                    <div class="card p-3 border-info zoom">
+                        <h6 class="display-6 text-center">@itemProducto.Nombre</h6>
+                        <hr>
+                        <div class="card-body">
+                            <p>Informacion</p>
+                            <p class="lead">Codigo de barras: @itemProducto.CodigoBarras</p>
+                            <p class="lead">Descripcion:</p>
+                            <p class="lead">@itemProducto.Descripcion</p>
+                            <p class="lead">Precio: $@itemProducto.Precio</p>
+                            <p class="lead">Precio venta: $@itemProducto.PrecioVenta</p>
+                            <p class="lead text-info">Descuento: @itemProducto.Descuento</p>
+                            <p class="lead">Categoria: @itemProducto.Categoria.Nombre</p>
+                        </div>
+                        <div class="card-footer text-center">
+                            <a class="btn btn-outline-primary" href="@Url.Action("Form", "Producto", new { idProducto = itemProducto.IdProducto })">✏️</a>
+                            <a class="btn btn-outline-danger" href="@Url.Action("Delete", "Producto", new { idProducto = itemProducto.IdProducto })">🗑️</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+}
+else
+{
+    <p class="lead">No hay productos que mostrar</p>
+}
+
+<style scoped>
+    .zoom {
+        transition: transform .2s;
+        cursor: pointer;
+    }
+
+        .zoom:hover {
+            transform: scale(1.1);
+        }
+</style>
